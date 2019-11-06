@@ -28,17 +28,17 @@ public class Java_Calculator {
         
         String[] splitArray = userCalc.split(" ");
         
-        ArrayList<String> userCaculationList = new ArrayList<>();
+        ArrayList<String> userCalculationList = new ArrayList<>();
         for(int i = 0; i < splitArray.length; i++){
-            userCaculationList.add(splitArray[i]);
+            userCalculationList.add(splitArray[i]);
         }
         
         
+        solve(userCalculationList);
         
+        System.out.println(userCalculationList);
         
-        System.out.println(userCaculationList);
-        
-        System.out.println(userCaculationList.get(0));
+        System.out.println(userCalculationList.get(0));
         
         
         
@@ -58,26 +58,67 @@ public class Java_Calculator {
         return false;
 }
     
-    // calculates the value of two numbers together
-    public int operationCalc(int a, int b, String operator){
+    public static int solve(ArrayList<String> userCalculationList){
+        //expression = calculate();
+        // calculate = computation
         
-        if(operator.equals("^")){
+        computation(userCalculationList, "^");
+        computation(userCalculationList, "+");
+        computation(userCalculationList, "-");
+        computation(userCalculationList, "*");
+        computation(userCalculationList, "/");
+        
+        
+        return Integer.parseInt(userCalculationList.get(0));
+        
+        
+    }
+    
+    //perform operation on ArrayLiost and new ArrayList
+    public static ArrayList<String> computation(ArrayList<String> userCalculationList, String operand){
+        for(int i = 0; i < userCalculationList.size(); i++){
+            if(userCalculationList.get(i).equals(operand)){
+                
+                int a = Integer.parseInt(userCalculationList.get(i-1));
+                int b = Integer.parseInt(userCalculationList.get(i+1));
+                
+                userCalculationList.set(i-1, Integer.toString(operationCalc(a,b,operand)));
+                
+                // remove the elemenst in the list except for the first one
+                userCalculationList.remove(i);
+                userCalculationList.remove(i);
+                
+                // go back down to the last element if the elemnt was an operand
+                i--;
+                
+            }
+        }
+        return userCalculationList;
+    }
+    
+    
+    // calculates the value of two numbers together
+    public static int operationCalc(int a, int b, String operand){
+        
+        if(operand.equals("^")){
             return (int)Math.pow(a,b);
         }
-        else if(operator.equals("+")){
+        else if(operand.equals("+")){
             return a + b;
         }
-        else if(operator.equals("-")){
+        else if(operand.equals("-")){
             return a - b;
         }
-        else if(operator.equals("*")){
+        else if(operand.equals("*")){
             return a *b;
         }
-        else if(operator.equals("/")){
+        else if(operand.equals("/")){
             return a / b;
         }
         else return -1;
     }
+    
+    
 
 }
 
