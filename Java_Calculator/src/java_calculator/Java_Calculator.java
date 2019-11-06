@@ -24,7 +24,10 @@ public class Java_Calculator {
         String userCalc = in.nextLine();
 
         String[] splitArray = userCalc.split(" ");
-        //correctInCheck(splitArray);
+        while(correctInCheck(splitArray) == false){
+            System.out.println("Wrong Input:: Please enter the calculation with spaces after each character: ");
+            userCalc = in.nextLine();
+        }
 
         ArrayList<String> userCalculationList = new ArrayList<>();
         for (String splitArray1 : splitArray) {
@@ -39,7 +42,7 @@ public class Java_Calculator {
     }
 
     // checks to see if input is an operand
-    public boolean isOp(String ch) {
+    public static boolean isOp(String ch) {
 
         return ch.contains("+") || ch.contains("-") || ch.contains("*")
                 || ch.contains("/") || ch.contains("^") || ch.contains("(")
@@ -47,9 +50,9 @@ public class Java_Calculator {
     }
 
     public static int solve(ArrayList<String> userCalculationList) {
-        
+
         parentheses(userCalculationList);
-        
+
         computation(userCalculationList, "^");
         computation(userCalculationList, "+");
         computation(userCalculationList, "-");
@@ -117,15 +120,35 @@ public class Java_Calculator {
         }
         return userCalculationList;
     }
+
+    public static boolean correctInCheck(String[] splitArray) {
+        
+        int numOfOperand = 0;
+        int numOfNums = 0;
+        
+        for (int i = 0; 1 < splitArray.length; i++) {
+           
+           try{
+                if (isOp(splitArray[i])) {
+                  numOfOperand++;
+                }
+                    Integer.parseInt(splitArray[i]);
+                    numOfNums++;
+                    
+                    if(numOfOperand != ((numOfNums) - 1)){
+                        System.out.println("Incorrect input");
+                        return false;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error");
+                    return false;
+                    
+                }
+            }
+        return true;
+        }
+
     
-    /*    public static void correctInCheck(String[] splitArray){
-    for(int i = 0; 1 < splitArray.length; i++){
-    if(){
-    
-    }
-    }
-    
-    }*/
 
     // calculates the value of two numbers together
     public static int operationCalc(int a, int b, String operand) {
